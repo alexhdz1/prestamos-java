@@ -6,6 +6,8 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.IOException;
 import  java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.FileWriter;
 
 
@@ -40,15 +42,20 @@ public class WriteFileTask {
                                 +".csv";
         return nombre_archivo;
     }
-    public void CrearArchivo(){
+    public void CrearArchivo(ArrayList<ArrayList<String>> estructuraFiltrada){
         String nombre_archivo = CrearNombre();          
         try{ 
-            String [] record = "2,Virat,Kohli,India,30".split(",");                 
+            //String [] record = "2,Virat,Kohli,India,30".split(",");                 
             FileWriter mFileWriter = new FileWriter(nombre_archivo, false);
             CSVWriter writer = new CSVWriter(mFileWriter);
-            writer.writeNext(record);  
+
+            for (ArrayList<String> consulta : estructuraFiltrada){
+                String[] valores_filtrados = new String[consulta.size()];
+                valores_filtrados = consulta.toArray(valores_filtrados);
+                writer.writeNext((valores_filtrados)); 
+            } 
             writer.close();
-            System.out.println(nombre_archivo);
+    
         }catch (IOException e) {
             e.printStackTrace();
         }

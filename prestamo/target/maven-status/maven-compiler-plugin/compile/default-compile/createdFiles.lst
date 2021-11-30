@@ -5,7 +5,6 @@ com/prestamo/utils/WriteFilesMultiprocesing.class
 com/prestamo/utils/SyncWriter.class
 com/prestamo/App.class
 com/prestamo/utils/CrearArchivo.class
-com/prestamo/utils/Manejador.class
 com/prestamo/utils/ReadFileMultiTask.class
 com/prestamo/utils/ReadFileTask.class
 com/prestamo/utils/WriteFileTask.class
