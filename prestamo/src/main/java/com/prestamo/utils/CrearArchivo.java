@@ -39,8 +39,8 @@ public class CrearArchivo {
         SyncWriter writer = null;
         ExecutorService pool = Executors.newFixedThreadPool(num_cores);
         for(int i = 0;i<num_cores;i++){ 
-        writer = new SyncWriter("./src/main/java/com/prestamo/db/211129COVID19MEXICO.csv",i);
-        pool.submit(new DividirArchivo(writer,lista_archivos.get(i)));
+            writer = new SyncWriter("./src/main/java/com/prestamo/db/dataset.csv",i);
+            pool.submit(new DividirArchivo(writer,lista_archivos.get(i)));
         }
         pool.shutdown();
         writer.close();
