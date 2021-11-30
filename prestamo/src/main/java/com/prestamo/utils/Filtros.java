@@ -10,7 +10,7 @@ import java.util.Collections;
 
 
 public class Filtros {
-    public static ArrayList<ArrayList<String>> filtarArchivo(String rutaAbsoluta, String nombreArchivo, String criterios,String columnas, String[] campos){
+    public static ArrayList<ArrayList<String>> filtarArchivo(String rutaCompleta, String criterios,String columnas, String[] campos){
         int i,aux;
         String linea;
         Boolean todoDato = false,todoColumna = false;
@@ -47,7 +47,7 @@ public class Filtros {
             }
         }
         try{
-            File archivoMenor = new File(rutaAbsoluta, nombreArchivo);
+            File archivoMenor = new File(rutaCompleta);
             archivoNormal = new BufferedReader (new FileReader(archivoMenor));
             while((linea = archivoNormal.readLine()) != null){
                 listaCampos = new ArrayList<>();
