@@ -32,9 +32,9 @@ public class ReadFileMultiTask {
             System.out.println(future);
         }
  
-        System.out.println("used:" + (System.currentTimeMillis() - begin) + "mills");
+        System.out.println("tiempo usado:" + (System.currentTimeMillis() - begin) + "mills");
     }
-         // flujo paralelo
+
     static void useParallelStream(Path path, Path path_folder) throws IOException {
         
         long begin = System.currentTimeMillis();
@@ -52,9 +52,9 @@ public class ReadFileMultiTask {
                 } catch (IOException e) {
                 }
             });
-            System.out.println("files count:" + count[0]);
-            System.out.println("line count:" + count[1]);
+            System.out.println("archivos en folder:" + count[0]);
+            System.out.println("lineas contadas:" + count[1]);
         }
-        System.out.println("used:" + (System.currentTimeMillis() - begin) + "mills");
+        System.out.println("tiempo usado:" + (System.currentTimeMillis() - begin) + "mills");
     }  
 }

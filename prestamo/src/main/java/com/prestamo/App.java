@@ -13,32 +13,27 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
   
   public static void main(String[] args) throws IOException, InterruptedException, ExecutionException{
-    int i,j;
+    int i;
     BufferedReader archivoNormal = null;
     ArrayList<ArrayList<String>> estructuraFiltrada = new ArrayList<>();
     String columnas = "";
     String filtrado = "";
     String[] campos = null;
     String linea;
+    List<List<String[]>> array_archivos;
     
     try {
-      File directorio = new File("./src/main/java/com/prestamo/db/input_dividido");
-      if (!directorio.exists()) {
-          if (directorio.mkdirs()) {
-              System.out.println("Directorio creado");
-              Architecture arquitectura = new Architecture();
-              int num_cores = arquitectura.getCores();
-              CrearArchivo archivos = new CrearArchivo(num_cores);
-              archivos.crearArchivo();
-          } else {
-              System.out.println("Error al crear directorio");
-              }
-      }
+      Architecture arquitectura = new Architecture();
+      int num_cores = arquitectura.getCores();
+      System.out.println("Directorio creado");  
+      CrearArchivo archivos = new CrearArchivo(num_cores);
+      array_archivos = archivos.crearArchivo();
 
       ReadFileMultiTask reader = new ReadFileMultiTask();
       reader.execute();
@@ -46,6 +41,7 @@ public class App {
       prueba.CrearDirectorio();
 
       try{
+        System.out.println("Entro");
         File archivoMenor = new File("./src/main/java/com/prestamo/db/211129COVID19MEXICO.csv");
         archivoNormal = new BufferedReader (new FileReader(archivoMenor));
         linea = archivoNormal.readLine();
@@ -53,10 +49,10 @@ public class App {
       }catch (FileNotFoundException e){
         System.out.println("Error: Archivo no encontrado");
         System.out.println(e.getMessage());
-    }catch(Exception e) {
+      }catch(Exception e) {
         System.out.println("Error de lectura del archivo");
         System.out.println(e.getMessage());
-    }finally {
+      }finally {
         try {
             if(archivoNormal != null)
                 archivoNormal.close();
@@ -76,10 +72,14 @@ public class App {
     System.out.println ("Ingresa el criterio de filtrado: ");
     Scanner filtroEscaner = new Scanner (System.in);
     filtrado = filtroEscaner.nextLine ();
-    
-    estructuraFiltrada = Filtros.filtarArchivo("./src/main/java/com/prestamo/db/211129COVID19MEXICO.csv", filtrado,columnas, campos);
+    ArrayList<ArrayList<ArrayList<String>>> lista_archivos_fitrados  = new ArrayList<ArrayList<ArrayList<String>>>();
+    for(int index = 0; index<array_archivos.size();index++){ 
+        estructuraFiltrada = Filtros.filtarArchivo("./src/main/java/com/prestamo/db/211129COVID19MEXICO.csv", filtrado,columnas, campos,array_archivos.get(index));
+        lista_archivos_fitrados.add(estructuraFiltrada);    
+    } 
 
-    prueba.CrearArchivo(estructuraFiltrada); 
+    prueba.CrearArchivoConcurrente(array_archivos.size(),lista_archivos_fitrados);
+
     columnaEscaner.close();
     filtroEscaner.close();
 

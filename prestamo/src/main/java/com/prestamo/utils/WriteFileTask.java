@@ -7,7 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import  java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.FileWriter;
 
 
@@ -45,8 +46,7 @@ public class WriteFileTask {
     public void CrearArchivo(ArrayList<ArrayList<String>> estructuraFiltrada){
         String nombre_archivo = CrearNombre();          
         try{ 
-            //String [] record = "2,Virat,Kohli,India,30".split(",");                 
-            FileWriter mFileWriter = new FileWriter(nombre_archivo, false);
+            FileWriter mFileWriter = new FileWriter(nombre_archivo, true);
             CSVWriter writer = new CSVWriter(mFileWriter);
 
             for (ArrayList<String> consulta : estructuraFiltrada){
@@ -59,5 +59,15 @@ public class WriteFileTask {
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+
+    public void CrearArchivoConcurrente(int num_cores,ArrayList<ArrayList<ArrayList<String>>> estructuraFiltrada){
+        
+        ExecutorService pool = Executors.newFixedThreadPool(num_cores);
+        for(int i = 0;i<num_cores;i++){ 
+            pool.submit(new WriteFilesMultiprocesing(new WriteFileTask(),estructuraFiltrada.get(i)));
+        }
+        pool.shutdown();
     }
 }
