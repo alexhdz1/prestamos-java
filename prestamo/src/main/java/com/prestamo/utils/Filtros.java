@@ -7,12 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+//import java.util.Iterator;
 
 public class Filtros {
-    public static ArrayList<ArrayList<String>> filtarArchivo(String rutaCompleta, String criterios,String columnas, String[] campos){
+
+    public static ArrayList<ArrayList<String>> filtarArchivo(String rutaCompleta, String criterios,String columnas, String[] campos,List<String[]> array_archivos){
         int i,aux;
-        String linea;
         Boolean todoDato = false,todoColumna = false;
         String[] camposAuxiliar, auxiliar, filtroColumnas=null;
         BufferedReader archivoNormal = null;
@@ -49,7 +51,8 @@ public class Filtros {
         try{
             File archivoMenor = new File(rutaCompleta);
             archivoNormal = new BufferedReader (new FileReader(archivoMenor));
-            while((linea = archivoNormal.readLine()) != null){
+            for (String[] arreglo_linea: array_archivos){
+                String linea = arreglo_linea[0];
                 listaCampos = new ArrayList<>();
                 camposAuxiliar = linea.split(",");
                 if(todoDato){
@@ -73,10 +76,6 @@ public class Filtros {
         }catch (FileNotFoundException e){
             System.out.println("Error: Archivo no encontrado");
             System.out.println(e.getMessage());
-        }catch(IOException e) {
-            System.out.println("Error de lectura del archivo");
-            System.out.println(e.getMessage());
-        
         }catch(NumberFormatException e){
             System.out.println("Por favor ingrese la busqueda en formato: campo1:valor1,campo2:valor2 para criterio de filtrado o 1,2,3 para columnas de interes");
         }catch(ArrayIndexOutOfBoundsException e){

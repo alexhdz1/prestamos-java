@@ -17,7 +17,7 @@ public class CrearArchivo {
         this.num_cores = num_cores; 
     }
 
-    public void crearArchivo() throws IOException{
+    public List<List<String[]>> crearArchivo() throws IOException{
         File doc = new File("./src/main/java/com/prestamo/db/211129COVID19MEXICO.csv");
         obj = new BufferedReader(new FileReader(doc));
         String strng;
@@ -44,5 +44,6 @@ public class CrearArchivo {
         }
         pool.shutdown();
         writer.close();
+        return lista_archivos;
     }
 }
